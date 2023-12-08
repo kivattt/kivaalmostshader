@@ -1,0 +1,23 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io/' }
+    }
+    dependencies {
+        classpath('com.github.Fox2Code.FoxLoader:dev:1.2.29')
+    }
+}
+
+apply plugin: 'foxloader.dev'
+
+version '1.0.0'
+
+foxloader {
+    // forceReload = true
+    modId = "kivaalmostshader"
+    modName = "KivaAlmostShader"
+    modVersion = project.version
+    modDesc = "Kiva's almost shader"
+    modWebsite = "https://github.com/kivattt/kivaalmostshader"
+    clientMod = "com.kiva.kivaalmostshader.KivaAlmostShaderClient"
+}
