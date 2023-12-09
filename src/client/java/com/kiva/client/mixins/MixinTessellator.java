@@ -25,26 +25,25 @@ public class MixinTessellator {
     //@Inject(method = "setColorRGBA", at = @At("HEAD"), cancellable = true)
     @Overwrite
     public void setColorRGBA(int r, int g, int b, int a){
-        if (!shaderEnabled)
-            return;
-
         if (isColorDisabled)
             return;
 
-        // r, g, b are usually the exact same so lets avoid re-calculating
-        int newBrightness = (int) (exaggerateContrast((double) r / 255) * 255);
-        //int newBrightness = (int) (darkerMoment((double) r / 255) * 255);
+        if (shaderEnabled) {
+            // r, g, b are usually the exact same so lets avoid re-calculating
+            int newBrightness = (int) (exaggerateContrast((double) r / 255) * 255);
+            //int newBrightness = (int) (darkerMoment((double) r / 255) * 255);
 
-        r = newBrightness;
-        //g = newBrightness;
-        if (!colorTintEnabled) {
-            //r = newBrightness;
-            g = newBrightness;
-        } else {
-            //r = (int) (scaleRed((double) newBrightness / 255) * 255);
-            g = (int) (scaleGreen((double) newBrightness / 255) * 255);
+            r = newBrightness;
+            //g = newBrightness;
+            if (!colorTintEnabled) {
+                //r = newBrightness;
+                g = newBrightness;
+            } else {
+                //r = (int) (scaleRed((double) newBrightness / 255) * 255);
+                g = (int) (scaleGreen((double) newBrightness / 255) * 255);
+            }
+            b = newBrightness;
         }
-        b = newBrightness;
 
         if (r > 255) {
             r = 255;
