@@ -15,6 +15,6 @@ public class Shader extends CommandCompat {
     @Override
     public void onExecute(String[] args, NetworkPlayer commandExecutor){
         shaderEnabled ^= true;
-        commandExecutor.displayChatMessage((shaderEnabled ? ChatColors.GREEN : ChatColors.RED) + "KivaAlmostShader " + (shaderEnabled ? "enabled" : "disabled") + ChatColors.RESET);
+        commandExecutor.displayChatMessage((shaderEnabled ? ChatColors.GREEN : ChatColors.RED) + "[KivaAlmostShader] " + (shaderEnabled ? "enabled" : "disabled"));
     }
 }

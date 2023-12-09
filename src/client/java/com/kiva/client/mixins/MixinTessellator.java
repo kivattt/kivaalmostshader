@@ -3,6 +3,7 @@ package com.kiva.client.mixins;
 import net.minecraft.src.client.renderer.Tessellator;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -10,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.nio.ByteOrder;
 
-import static com.kiva.kivaalmostshader.ColorScaling.exaggerateContrast;
-import static com.kiva.kivaalmostshader.ColorScaling.scaleGreen;
+import static com.kiva.kivaalmostshader.ColorScaling.*;
+import static com.kiva.kivaalmostshader.KivaAlmostShader.colorTintEnabled;
 import static com.kiva.kivaalmostshader.KivaAlmostShader.shaderEnabled;
 
 @Mixin(Tessellator.class)
@@ -21,17 +22,29 @@ public class MixinTessellator {
     @Shadow private int color;
 
     // A glorified @Overwrite, we just replace everything and ci.cancel() lol
-    @Inject(method = "setColorRGBA", at = @At("HEAD"), cancellable = true)
-    public void onSetColorRGBA(int r, int g, int b, int a, CallbackInfo ci){
+    //@Inject(method = "setColorRGBA", at = @At("HEAD"), cancellable = true)
+    @Overwrite
+    public void setColorRGBA(int r, int g, int b, int a){
         if (!shaderEnabled)
             return;
 
         if (isColorDisabled)
             return;
 
-        r = (int) (exaggerateContrast((double) r / 255) * 255);
-        g = (int) (scaleGreen(exaggerateContrast((double) g / 255)) * 255);
-        b = (int) (exaggerateContrast((double) b / 255) * 255);
+        // r, g, b are usually the exact same so lets avoid re-calculating
+        int newBrightness = (int) (exaggerateContrast((double) r / 255) * 255);
+        //int newBrightness = (int) (darkerMoment((double) r / 255) * 255);
+
+        r = newBrightness;
+        //g = newBrightness;
+        if (!colorTintEnabled) {
+            //r = newBrightness;
+            g = newBrightness;
+        } else {
+            //r = (int) (scaleRed((double) newBrightness / 255) * 255);
+            g = (int) (scaleGreen((double) newBrightness / 255) * 255);
+        }
+        b = newBrightness;
 
         if (r > 255) {
             r = 255;
@@ -72,6 +85,5 @@ public class MixinTessellator {
         } else {
             color = r << 24 | g << 16 | b << 8 | a;
         }
-        ci.cancel();
     }
 }

@@ -1,17 +1,26 @@
 package com.kiva.kivaalmostshader;
 
+import static com.kiva.kivaalmostshader.KivaAlmostShader.brighterShadows;
+
 public class ColorScaling {
     public static double exaggerateContrast(double n){
-        return n <= 0.4587 ? Math.pow(n + 0.25, 4) : 6*n - 2.5;
-        //return n <= 0.4337 ? Math.pow(n + 0.25, 6) : 6*n - 2.5;
-        //return n <= 0.452 ? Math.pow(n + 0.35, 7) : 6*n - 2.5;
-        //return n <= 0.4592 ? Math.pow(n + 0.4, 9) : 6*n - 2.5;
+        if (brighterShadows && n < 0.487)
+            return n;
+
+        n += 0.4;
+        return n * n * n * n * n * n;
     }
 
     public static double scaleGreen(double g){
-        //return g < 0.15 ? g : (g + g*g*g) / 2;
-        if (g < 0.6)
-            return (g + g*g*g) / 2 + (1 - Math.pow(g + 0.05, 0.1)) / 3;
         return (g + g*g*g) / 2;
+    }
+
+    // "dark" one
+    public static double darkerMoment(double n){
+        return (n*n*n) - 0.01;
+    }
+
+    public static double scaleRed(double r){
+        return Math.sqrt(r);
     }
 }
