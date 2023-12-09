@@ -8,6 +8,6 @@ This is not a shader, it scales vertex colors in `Tesselator.java`
 
 # Known issues
 - Stuff will just go fullbright and flashbang you in your menus sometimes
-- Makes some menus look darker
+- Makes some menus look darker (The durability bar for tools gets kinda messed up)
 - Commands does not toggle immediately, it's kind of like changing your gamma
 - Tints everything slightly pink/purple (not a bug, it's a feature!) (`/colortint` to disable)
