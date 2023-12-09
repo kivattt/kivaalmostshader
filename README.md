@@ -2,8 +2,8 @@
 This is not a shader, it scales vertex colors in `Tesselator.java`
 
 # Commands
-`/shader` - Toggle the "shader"
-`/colortint` - Toggle the color tint, keeping only the increased contrast
+`/shader` - Toggle the "shader"\
+`/colortint` - Toggle the color tint, keeping only the increased contrast\
 `/brightershadows` - Toggle vanilla shadows basically
 
 # Known issues
