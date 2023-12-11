@@ -1,5 +1,11 @@
 # KivaAlmostShader
-This is not a shader, it scales vertex colors in `Tesselator.java`
+This is not a shader, it scales vertex colors in `Tesselator.java`\
+Enable Smooth Lighting in Video settings, it will look weird without it
+
+<p float="left">
+<img src="images/vanilla.png" alt="A screenshot from vanilla ReIndev" width="48%">
+<img src="images/shader.png" alt="A screenshot with KivaAlmostShader installed" width="48%">
+</p>
 
 # Commands
 `/shader` - Toggle the "shader"\
