@@ -1,4 +1,4 @@
-package com.kiva.client.mixins;
+package com.kiva.kivaalmostshader.client.mixins;
 
 import net.minecraft.src.client.renderer.Tessellator;
 import org.lwjgl.opengl.GL11;
@@ -21,20 +21,23 @@ public class MixinTessellator {
     @Shadow private boolean renderingChunk;
     @Shadow private int color;
 
-    // A glorified @Overwrite, we just replace everything and ci.cancel() lol
-    //@Inject(method = "setColorRGBA", at = @At("HEAD"), cancellable = true)
+    /**
+     * @author Kiva
+     * @reason Changes vertex colors, original code copied from the de-compilation then edited
+     */
     @Overwrite
     public void setColorRGBA(int r, int g, int b, int a){
         if (isColorDisabled)
             return;
 
         if (shaderEnabled) {
-            // r, g, b are usually the exact same so lets avoid re-calculating
+            // r, g, b are usually the exact same so let's avoid re-calculating
             int newBrightness = (int) (exaggerateContrast((double) r / 255) * 255);
             //int newBrightness = (int) (darkerMoment((double) r / 255) * 255);
 
             r = newBrightness;
             //g = newBrightness;
+            b = newBrightness;
             if (!colorTintEnabled) {
                 //r = newBrightness;
                 g = newBrightness;
@@ -42,7 +45,6 @@ public class MixinTessellator {
                 //r = (int) (scaleRed((double) newBrightness / 255) * 255);
                 g = (int) (scaleGreen((double) newBrightness / 255) * 255);
             }
-            b = newBrightness;
         }
 
         if (r > 255) {
